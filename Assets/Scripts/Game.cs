@@ -7,19 +7,20 @@ public class Game : MonoBehaviour
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private RestartScreen _restartScreen;
     [SerializeField] private ScoreCounter _scoreCounter;
+    [SerializeField] private BulletPool _bulletPool;
 
     private void OnEnable()
     {
-        _startScreen.PlayButtonClicked += OnPlayButtonClick;
-        _restartScreen.RestartButtonClicked += OnRestartButtonClick;
+        _startScreen.ButtonClicked += OnPlayButtonClick;
+        _restartScreen.ButtonClicked += OnRestartButtonClick;
         _bird.GameOver += OnGameOver;
         _enemySpawner.EnemySpawned += OnEnemySpawned;
     }
 
     private void OnDisable()
     {
-        _startScreen.PlayButtonClicked -= OnPlayButtonClick;
-        _restartScreen.RestartButtonClicked -= OnRestartButtonClick;
+        _startScreen.ButtonClicked -= OnPlayButtonClick;
+        _restartScreen.ButtonClicked -= OnRestartButtonClick;
         _bird.GameOver -= OnGameOver;
         _enemySpawner.EnemySpawned -= OnEnemySpawned;
     }
@@ -51,6 +52,7 @@ public class Game : MonoBehaviour
     private void StartGame()
     {
         Time.timeScale = 1;
+        _bird.Init(_bulletPool);
         _scoreCounter.Reset();
         _bird.Reset();
     }
@@ -58,7 +60,7 @@ public class Game : MonoBehaviour
     private void OnEnemySpawned(Enemy enemy)
     {
         enemy.Died += OnEnemyDied;
-        enemy.ReadyToReturn += OnEnemyRemoved;
+        enemy.Disabled += OnEnemyRemoved;
     }
     
     private void OnEnemyDied(Enemy enemy)
@@ -69,6 +71,6 @@ public class Game : MonoBehaviour
     private void OnEnemyRemoved(Enemy enemy)
     {
         enemy.Died -= OnEnemyDied;
-        enemy.ReadyToReturn -= OnEnemyRemoved;
+        enemy.Disabled -= OnEnemyRemoved;
     }
 }

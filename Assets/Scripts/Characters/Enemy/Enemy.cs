@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Health), typeof(Shooter))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IPoolable<Enemy>
 {
     [SerializeField] private float _shootDelay = 2f;
     
@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     private WaitForSeconds _delay;
     
     public event Action<Enemy> Died;
-    public event Action<Enemy> ReadyToReturn;
+    public event Action<Enemy> Disabled;
 
     private void Awake()
     {
@@ -37,9 +37,14 @@ public class Enemy : MonoBehaviour
         _health.Depleted -= OnDepleted;
     }
     
-    public void ReturnToPool()
+    public void Disable()
     {
-        ReadyToReturn?.Invoke(this);
+        Disabled?.Invoke(this);
+    }
+    
+    public void Init(BulletPool bulletPool)
+    {
+        _shooter.Init(bulletPool);
     }
     
     private IEnumerator Shoot()
@@ -54,6 +59,6 @@ public class Enemy : MonoBehaviour
     private void OnDepleted()
     {
         Died?.Invoke(this);
-        ReadyToReturn?.Invoke(this);
+        Disabled?.Invoke(this);
     }
 }

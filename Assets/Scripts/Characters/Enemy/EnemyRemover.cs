@@ -8,7 +8,7 @@ public class EnemyRemover : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Enemy enemy))
         {
-            enemy.ReturnToPool();
+            enemy.Disable();
         }
     }
 }

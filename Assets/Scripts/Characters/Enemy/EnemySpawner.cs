@@ -7,7 +7,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _delay;
     [SerializeField] private float _lowerBound;
     [SerializeField] private float _upperBound;
-    [SerializeField] private EnemyPool _pool;
+    
+    [SerializeField] private EnemyPool _enemyPool;
+    [SerializeField] private BulletPool _bulletPool;
 
     private WaitForSeconds _wait;
     
@@ -37,10 +39,10 @@ public class EnemySpawner : MonoBehaviour
         float spawnPositionY = UnityEngine.Random.Range(_lowerBound, _upperBound);
         Vector3 spawnPoint = new Vector3(transform.position.x, spawnPositionY, transform.position.z);
 
-        Enemy enemy = _pool.Get();
-        EnemySpawned?.Invoke(enemy);
-
-        enemy.gameObject.SetActive(true);
+        Enemy enemy = _enemyPool.Get();
         enemy.transform.position = spawnPoint;
+        enemy.Init(_bulletPool);
+        
+        EnemySpawned?.Invoke(enemy);
     }
 }

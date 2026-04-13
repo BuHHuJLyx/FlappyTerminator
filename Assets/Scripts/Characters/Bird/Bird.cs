@@ -47,6 +47,11 @@ public class Bird : MonoBehaviour
     {
         _mover.Reset();
     }
+    
+    public void Init(BulletPool bulletPool)
+    {
+        _shooter.Init(bulletPool);
+    }
 
     private void OnDepleted()
     {

@@ -13,8 +13,8 @@ TagManager:
   - UI
   - Bird
   - Enemy
-  - 
-  - 
+  - BirdBullet
+  - EnemyBullet
   - 
   - 
   - 
