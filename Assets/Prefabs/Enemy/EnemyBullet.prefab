@@ -171,3 +171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   _lifeTime: 5
+  _target:
+    serializedVersion: 2
+    m_Bits: 64

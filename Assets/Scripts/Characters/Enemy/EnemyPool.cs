@@ -22,7 +22,7 @@ public class EnemyPool : MonoBehaviour
             Enemy enemy = Instantiate(_prefab);
             enemy.transform.parent = _container;
             
-            enemy.Init(this);
+            enemy.ReadyToReturn += Put;
 
             return enemy;
         }

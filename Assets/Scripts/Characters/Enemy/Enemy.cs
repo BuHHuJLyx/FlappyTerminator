@@ -6,13 +6,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _shootDelay = 2f;
-
-    private EnemyPool _pool;
+    
     private Health _health;
     private Shooter _shooter;
     private WaitForSeconds _delay;
     
     public event Action<Enemy> Died;
+    public event Action<Enemy> ReadyToReturn;
 
     private void Awake()
     {
@@ -36,10 +36,10 @@ public class Enemy : MonoBehaviour
     {
         _health.Depleted -= OnDepleted;
     }
-
-    public void Init(EnemyPool pool)
+    
+    public void ReturnToPool()
     {
-        _pool = pool;
+        ReadyToReturn?.Invoke(this);
     }
     
     private IEnumerator Shoot()
@@ -54,6 +54,6 @@ public class Enemy : MonoBehaviour
     private void OnDepleted()
     {
         Died?.Invoke(this);
-        _pool.Put(this);
+        ReadyToReturn?.Invoke(this);
     }
 }

@@ -58,11 +58,17 @@ public class Game : MonoBehaviour
     private void OnEnemySpawned(Enemy enemy)
     {
         enemy.Died += OnEnemyDied;
+        enemy.ReadyToReturn += OnEnemyRemoved;
     }
     
     private void OnEnemyDied(Enemy enemy)
     {
-        enemy.Died -= OnEnemyDied;
         _scoreCounter.Add();
+    }
+    
+    private void OnEnemyRemoved(Enemy enemy)
+    {
+        enemy.Died -= OnEnemyDied;
+        enemy.ReadyToReturn -= OnEnemyRemoved;
     }
 }
